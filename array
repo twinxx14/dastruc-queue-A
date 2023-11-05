@@ -1,0 +1,170 @@
+import java.util.Scanner;
+
+// Class representing queue operations using an array
+class QueueOperations {
+    private int maxSize; // Maximum size of the queue
+    private int[] queueArray; // Array to store queue elements
+    private int front; // Index of the front element
+    private int rear; // Index of the rear element
+    private int currentSize; // Current number of elements in the queue
+
+    // Constructor to initialize the queue with a given size
+    public QueueOperations(int maxSize) {
+        this.maxSize = maxSize;
+        this.queueArray = new int[maxSize];
+        this.front = 0;
+        this.rear = -1;
+        this.currentSize = 0;
+    }
+
+    // Method to check if the queue is empty
+    public boolean isEmpty() {
+        return currentSize == 0;
+    }
+
+    // Method to check if the queue is full
+    public boolean isFull() {
+        return currentSize == maxSize;
+    }
+
+    // Method to enqueue an element into the queue
+    public void enqueue(int element) {
+        if (isFull()) {
+            System.out.println("Queue is full. Cannot enqueue more elements.");
+        } else {
+            rear = (rear + 1) % maxSize;
+            queueArray[rear] = element;
+            currentSize++;
+            System.out.println(element + " enqueued to the queue.");
+        }
+    }
+
+    // Method to dequeue an element from the queue
+    public int dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty. Cannot dequeue elements.");
+            return -1;
+        } else {
+            int removedElement = queueArray[front];
+            front = (front + 1) % maxSize;
+            currentSize--;
+            return removedElement;
+        }
+    }
+
+    // Method to display the elements of the queue
+    public void displayQueue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+        } else {
+            System.out.print("Queue: ");
+            int index = front;
+            for (int i = 0; i < currentSize; i++) {
+                System.out.print(queueArray[index] + " ");
+                index = (index + 1) % maxSize;
+            }
+            System.out.println();
+        }
+      }
+    // Method to get the front element of the queue
+    public int front() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+            return -1;
+        }
+        return queueArray[front];
+    }
+
+    // Method to get the rear element of the queue
+    public int rear() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+            return -1;
+        }
+        return queueArray[rear];
+    }
+
+    }
+
+// Main class containing the menu-driven program
+public class TestQueueArray {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the maximum size of the queue: ");
+        int maxSize = scanner.nextInt();
+
+        // Creating a new queue object with the specified maximum size
+        QueueOperations queue = new QueueOperations(maxSize);
+
+        while (true) {
+            System.out.println("Menu:");
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Display Queue");
+            System.out.println("4. Front Element");
+            System.out.println("5. Rear Element");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    // Enqueue operation
+                    System.out.print("Enter the element to enqueue: ");
+                    int element = scanner.nextInt();
+                    queue.enqueue(element);
+                    break;
+                case 2:
+                    // Dequeue operation
+                    int removedElement = queue.dequeue();
+                    if (removedElement != -1) {
+                        System.out.println(removedElement + " dequeued from the queue.");
+                    }
+                    break;
+                case 3:
+                    // Display queue operation
+                    queue.displayQueue();
+                    break;
+                case 4:
+                    // Front element operation
+                    int frontElement = queue.front();
+                    if (frontElement != -1) {
+                        System.out.println("Front element: " + frontElement);
+                    }
+                    break;
+                case 5:
+                    // Rear element operation
+                    int rearElement = queue.rear();
+                    if (rearElement != -1) {
+                        System.out.println("Rear element: " + rearElement);
+                    }
+                    break;
+                case 6:
+                    // Exit the program
+                    System.out.println("Exiting the program.");
+                    System.exit(0);
+                    break;
+                default:
+                    // Invalid choice
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+        }
+    }
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
