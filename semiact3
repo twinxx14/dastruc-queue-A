@@ -1,0 +1,62 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class CustomerQueueManager {
+    public static void main(String[] args) {
+        Queue<String> customerQueue = new LinkedList<>();
+        Scanner scanner = new Scanner(System.in);
+        char choice;
+
+        do {
+            System.out.println("[a]-Add a New Customer");
+            System.out.println("[b]-Remove a Customer");
+            System.out.println("[c]-Display front Customer");
+            System.out.println("[d]-Count of Customers");
+            System.out.println("[e]-Display all Customers");
+            System.out.println("[f]-QUIT");
+            System.out.print("Enter your choice: ");
+            choice = scanner.next().charAt(0);
+
+            switch (choice) {
+                case 'a':
+                    System.out.print("Enter customer name: ");
+                    String customerName = scanner.next();
+                    customerQueue.add(customerName);
+                    System.out.println("Customer added to the queue.");
+                    break;
+                case 'b':
+                    if (!customerQueue.isEmpty()) {
+                        String removedCustomer = customerQueue.poll();
+                        System.out.println("Removed customer: " + removedCustomer);
+                    } else {
+                        System.out.println("Queue is empty. No customer to remove.");
+                    }
+                    break;
+                case 'c':
+                    if (!customerQueue.isEmpty()) {
+                        System.out.println("Front customer: " + customerQueue.peek());
+                    } else {
+                        System.out.println("Queue is empty.");
+                    }
+                    break;
+                case 'd':
+                    System.out.println("Number of customers in the queue: " + customerQueue.size());
+                    break;
+                case 'e':
+                    if (!customerQueue.isEmpty()) {
+                        System.out.println("Customers in the queue: " + customerQueue);
+                    } else {
+                        System.out.println("Queue is empty.");
+                    }
+                    break;
+                case 'f':
+                    System.out.println("Exiting the program. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        } while (choice != 'f');
+    }
+}
