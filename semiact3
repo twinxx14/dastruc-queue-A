@@ -1,10 +1,11 @@
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
-public class CustomerQueueManager {
+public class CustomerQueue {
+    private static String[] queue = new String[100];
+    private static int front = -1;
+    private static int rear = -1;
+
     public static void main(String[] args) {
-        Queue<String> customerQueue = new LinkedList<>();
         Scanner scanner = new Scanner(System.in);
         char choice;
 
@@ -17,46 +18,90 @@ public class CustomerQueueManager {
             System.out.println("[f]-QUIT");
             System.out.print("Enter your choice: ");
             choice = scanner.next().charAt(0);
+            scanner.nextLine(); // Consume newline character
 
             switch (choice) {
                 case 'a':
                     System.out.print("Enter customer name: ");
-                    String customerName = scanner.next();
-                    customerQueue.add(customerName);
-                    System.out.println("Customer added to the queue.");
+                    String customerName = scanner.nextLine();
+                    enqueue(customerName);
                     break;
                 case 'b':
-                    if (!customerQueue.isEmpty()) {
-                        String removedCustomer = customerQueue.poll();
-                        System.out.println("Removed customer: " + removedCustomer);
-                    } else {
-                        System.out.println("Queue is empty. No customer to remove.");
-                    }
+                    dequeue();
                     break;
                 case 'c':
-                    if (!customerQueue.isEmpty()) {
-                        System.out.println("Front customer: " + customerQueue.peek());
-                    } else {
-                        System.out.println("Queue is empty.");
-                    }
+                    displayFrontCustomer();
                     break;
                 case 'd':
-                    System.out.println("Number of customers in the queue: " + customerQueue.size());
+                    int count = countCustomers();
+                    System.out.println("Number of customers in the queue: " + count);
                     break;
                 case 'e':
-                    if (!customerQueue.isEmpty()) {
-                        System.out.println("Customers in the queue: " + customerQueue);
-                    } else {
-                        System.out.println("Queue is empty.");
-                    }
+                    displayAllCustomers();
                     break;
                 case 'f':
-                    System.out.println("Exiting the program. Goodbye!");
+                    System.out.println("Quitting the program. Goodbye!");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
                     break;
             }
         } while (choice != 'f');
+    }
+
+    private static void enqueue(String customerName) {
+        if (rear == queue.length - 1) {
+            System.out.println("Queue is full. Cannot add more customers.");
+        } else {
+            if (front == -1) {
+                front = 0;
+            }
+            rear++;
+            queue[rear] = customerName;
+            System.out.println("Customer '" + customerName + "' added to the queue.");
+        }
+    }
+
+    private static void dequeue() {
+        if (front == -1) {
+            System.out.println("Queue is empty. No customer to remove.");
+        } else {
+            String removedCustomer = queue[front];
+            if (front == rear) {
+                // Last customer in the queue
+                front = -1;
+                rear = -1;
+            } else {
+                front++;
+            }
+            System.out.println("Customer '" + removedCustomer + "' removed from the queue.");
+        }
+    }
+
+    private static void displayFrontCustomer() {
+        if (front == -1) {
+            System.out.println("Queue is empty. No customer at the front.");
+        } else {
+            System.out.println("Front Customer: " + queue[front]);
+        }
+    }
+
+    private static int countCustomers() {
+        if (front == -1) {
+            return 0;
+        } else {
+            return rear - front + 1;
+        }
+    }
+
+    private static void displayAllCustomers() {
+        if (front == -1) {
+            System.out.println("Queue is empty. No customers to display.");
+        } else {
+            System.out.println("Customers in the queue:");
+            for (int i = front; i <= rear; i++) {
+                System.out.println(queue[i]);
+            }
+        }
     }
 }
